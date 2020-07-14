@@ -121,7 +121,7 @@
           "displayName": "Arc renderer demo",
           "trackSelectorType": "hierarchical",
           "offsetPx": 0,
-          "bpPerPx": 100,
+          "bpPerPx": 7798.966735482216,
           "displayedRegions": [
             {
               "refName": "1",
