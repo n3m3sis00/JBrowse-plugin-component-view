@@ -1,9 +1,9 @@
 {
-  "name": "@gmod/jbrowse-plugin-gdc",
+  "name": "@gmod/jbrowse-plugin-arc-renderer",
   "version": "0.0.1-beta.1",
-  "description": "JBrowse 2 GDC plugin",
+  "description": "JBrowse 2 arc renderer",
   "jbrowse-plugin": {
-    "name": "GDC"
+    "name": "ArcRenderer"
   },
   "main": "src/index.ts",
   "scripts": {

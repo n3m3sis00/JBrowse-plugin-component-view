@@ -39,23 +39,35 @@ export const ReactComponent = props => {
 // which draws to a canvas and returns the results in a React component
 export default class ArcRenderer extends ServerSideRendererType {
   async render(renderProps) {
-    const { width, features, config, regions, bpPerPx } = renderProps
-    const height = 500
-    const canvas = createCanvas(width, height)
-    const ctx = canvas.getContext('2d')
+    const {
+      features,
+      config,
+      regions,
+      bpPerPx,
+      highResolutionScaling,
+    } = renderProps
     const region = regions[0]
-    for (const feature of features.values) {
+    const width = (region.end - region.start) / bpPerPx
+    const height = 500
+    const canvas = createCanvas(
+      width * highResolutionScaling,
+      height * highResolutionScaling,
+    )
+    const ctx = canvas.getContext('2d')
+    ctx.scale(highResolutionScaling, highResolutionScaling)
+    for (const feature of features.values()) {
       const [left, right] = bpSpanPx(
         feature.get('start'),
         feature.get('end'),
         region,
         bpPerPx,
       )
+
       ctx.beginPath()
       ctx.strokeStyle = readConfObject(config, 'color', [feature])
       ctx.lineWidth = 3
       ctx.moveTo(left, 0)
-      ctx.bezierCurveTo(left, height / 2, right, height / 2, right, 0)
+      ctx.bezierCurveTo(left, 200, right, 200, right, 0)
       ctx.stroke()
     }
     const imageData = await createImageBitmap(canvas)

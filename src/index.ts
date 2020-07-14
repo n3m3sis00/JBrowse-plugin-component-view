@@ -6,7 +6,8 @@ import ArcRenderer, {
   ReactComponent as ArcRendererReactComponent,
 } from './ArcRenderer'
 
-export default class AlignmentsPlugin extends Plugin {
+export default class ArcRendererPlugin extends Plugin {
+  name = 'ArcPlugin'
   install(pluginManager: PluginManager) {
     pluginManager.addRendererType(
       () =>
