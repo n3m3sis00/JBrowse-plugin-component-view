@@ -1,4 +1,5 @@
-
+// basic custom "view" component that renders a h1 and a button with react hook
+// to update state
 export default function (pluginManager: any) {
   const React = pluginManager.lib["react"];
 

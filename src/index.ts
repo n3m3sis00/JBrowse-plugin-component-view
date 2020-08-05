@@ -16,29 +16,14 @@ export default class ArcRendererPlugin extends Plugin {
   install(pluginManager: PluginManager) {
     const {types} = pluginManager.lib['mobx-state-tree']
     const stateModel = types.model({ type: types.literal('BarChartView') }).actions(() => ({
-      setWidth(width:number) {
+      setWidth() {
+        // unused but required by your view
       }
     }))
     const ReactComponent = componentFactory(pluginManager)
-
-    // const ReactComponent = () => {
-    //   return <h1>"Hello bioinformatics world!"</h1>
-    // }
-    console.log('here')
 
     pluginManager.addViewType(
        () => new ViewType({ name: 'BarChartView', stateModel, ReactComponent })
     )
   }
-
-  // configure(pluginManager: PluginManager) {
-  //   if (isAbstractMenuManager(pluginManager.rootModel)) {
-  //     pluginManager.rootModel.appendToSubMenu(['File', 'Add'], {
-  //       label: 'Bar chart view',
-  //       onClick: (session: AbstractViewContainer) => {
-  //         session.addView('BarChartView', {})
-  //       },
-  //     })
-  //   }
-  // }
 }
