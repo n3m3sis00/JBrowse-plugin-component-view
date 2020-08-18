@@ -1,9 +1,9 @@
 {
-  "name": "@gmod/jbrowse-plugin-bar-chart",
+  "name": "@gmod/jbrowse-phylo-tree-chart",
   "version": "0.0.1-beta.1",
-  "description": "JBrowse 2 bar chart view",
+  "description": "JBrowse 2 Phylo Tree view",
   "jbrowse-plugin": {
-    "name": "BarChart"
+    "name": "PhyloTree"
   },
   "main": "src/index.tsx",
   "scripts": {
@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "author": "Andrew Duncan",
+  "author": "Shreya Srivastava",
   "license": "MIT",
   "dependencies": {
     "@gmod/jbrowse-core": "^0.0.1-beta.19",

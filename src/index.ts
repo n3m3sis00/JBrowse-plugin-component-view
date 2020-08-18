@@ -8,11 +8,11 @@ import {
 } from "@gmod/jbrowse-core/util";
 
 export default class ArcRendererPlugin extends Plugin {
-  name = "BarChartPlugin";
+  name = "PhyloTreePlugin";
   install(pluginManager: PluginManager) {
     const { types } = pluginManager.lib["mobx-state-tree"];
     const stateModel = types
-      .model({ type: types.literal("BarChartView") })
+      .model({ type: types.literal("PhyloTreeView") })
       .actions(() => ({
         setWidth() {
           // unused but required by your view
@@ -20,7 +20,7 @@ export default class ArcRendererPlugin extends Plugin {
       }));
 
     pluginManager.addViewType(
-      () => new ViewType({ name: "BarChartView", stateModel, ReactComponent })
+      () => new ViewType({ name: "PhyloTreeView", stateModel, ReactComponent })
     );
   }
 }
