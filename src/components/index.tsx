@@ -1,3 +1,12 @@
+/*
+Author: Shreya Srivastava, Colin Diesh
+*/
+
+/*TODO
+    Species name on leaf Node rathar Than accession Number : https://rest.ensembl.org/cafe/genetree/id/${geneId}?content-type=text/x-nh;nh_format=simple
+    Huge Tree Sometimes Crashes browser (Fixes: MSA render breaks on huge trees so don't show it, no color coding of MSA might work)
+*/
+
 import React, { useState, useEffect } from "react";
 import { Tree, MSA } from "phylo-react";
 import { makeStyles } from '@material-ui/core/styles'
@@ -15,13 +24,26 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+var globalseq = ""
+function ensemblToStock(currentNode) {
+    var i, currentChild;
+    for (i = 0; i < 2; i += 1) {
+        if(currentNode.children){
+            currentChild = currentNode.children[i];
+            ensemblToStock(currentChild);
+        }else{
+            globalseq += currentNode.sequence.id[0].accession + " " + currentNode.sequence.mol_seq.seq + "\n";
+            return;
+        }
+
+    }
+}
+
 function TreeMSA(props){
-  const {treedata, msadata, geneId, showBranchLength, layout} = props
+  const {treedata, msadata, layout} = props
   const [treeresponse, setTreeresponse] = useState(null)
   const classes = useStyles()
 
-  console.log("reponse", treeresponse)
-  console.log("msadata", msadata)
   return (
       <Grid key={1} item>
         <div className={classes.tree_div}>
@@ -32,7 +54,7 @@ function TreeMSA(props){
               getConfig={treeresponse === null ? setTreeresponse : d => {}}/>
           </Box>
           <Box width="50%" style={{ overflowX: 'scroll' }}>
-          {treeresponse !== null ? <MSA data={msadata} heigtoftree={240} dataToShow={treeresponse.leafloc}/> : null}
+          {treeresponse !== null ? <MSA data={msadata} heigtoftree={treeresponse.treeheight} dataToShow={treeresponse.leafloc}/> : null}
           </Box>
         </div>
       </Grid>
@@ -46,20 +68,16 @@ function App() {
   const [loading, setLoading] = useState();
   const [showBranchLength, setShowBranchLength] = useState(true);
   const [geneId, setGeneId] = useState("ENSGT00390000003602");
-  const [species, setSpecies] = useState(true);
+  const [species, setSpecies] = useState(false);
   return (
     <div className="App">
       <form
         onSubmit={async (event) => {
           event.preventDefault();
           setLoading(true);
-          const result = await (species
-            ? fetch(
-                `https://rest.ensembl.org/cafe/genetree/id/${geneId}?content-type=text/x-nh;nh_format=simple`
-              )
-            : fetch(
+          const result = await fetch(
                 `https://rest.ensembl.org/genetree/id/${geneId}?content-type=text/x-nh;nh_format=simple`
-              ));
+              );
 
           const resultmsa = await fetch(
                 `https://rest.ensembl.org/genetree/id/${geneId}?content-type=application/json;aligned=1;sequence=cdna` //
@@ -72,9 +90,9 @@ function App() {
           }
           const text = await result.text();
           const msatext = await resultmsa.json();
-          console.log("consolelog msa", msatext)
+          await ensemblToStock(msatext.tree)
           setTree(text);
-          setmsadata(msatext)
+          setmsadata(globalseq)
           setError(undefined);
           setLoading(false);
         }}
@@ -95,16 +113,6 @@ function App() {
             checked={showBranchLength}
             onChange={(event) => {
               setShowBranchLength(event.target.checked);
-            }}
-          />
-        </label>
-        <label>
-          Species (CAFE) tree or gene tree?
-          <input
-            type="checkbox"
-            checked={species}
-            onChange={(event) => {
-              setSpecies(event.target.checked);
             }}
           />
         </label>
