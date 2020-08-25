@@ -8,7 +8,7 @@ Author: Shreya Srivastava, Colin Diesh
 */
 
 import React, { useState, useEffect } from "react";
-import { Tree, MSA } from "phylo-react";
+import { Tree, MSAsvg } from "phylo-react";
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -54,7 +54,7 @@ function TreeMSA(props){
               getConfig={treeresponse === null ? setTreeresponse : d => {}}/>
           </Box>
           <Box width="50%" style={{ overflowX: 'scroll' }}>
-          {treeresponse !== null ? <MSA data={msadata} heigtoftree={treeresponse.treeheight} dataToShow={treeresponse.leafloc}/> : null}
+          {treeresponse !== null ? <MSAsvg data={msadata} heigtoftree={treeresponse.treeheight} dataToShow={treeresponse.leafloc}/> : null}
           </Box>
         </div>
       </Grid>
