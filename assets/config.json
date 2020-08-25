@@ -1,7 +1,7 @@
 {
   "plugins": [
     {
-      "name": "BarChart",
+      "name": "PhyloTree",
       "url": "http://localhost:9000/plugin.js"
     }
   ],
@@ -44,11 +44,11 @@
   },
   "savedSessions": [
     {
-      "name": "Bar chart",
+      "name": "Phylo Tree",
       "views": [
         {
           "id": "MiDMyyWpp",
-          "type": "BarChartView"
+          "type": "PhyloTreeView"
         }
       ]
     }
